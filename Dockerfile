@@ -5,7 +5,7 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # Copy package.json and package-lock.json to the container
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json ./ 
 
 # Install dependencies
 RUN npm install
@@ -39,5 +39,5 @@ EXPOSE 3000
 # Set the environment variable for production
 ENV NODE_ENV=production
 
-# Start the application
-CMD ["npm", "run", "start"]
+# Run Prisma migrations on container startup and then start the app
+CMD npx prisma migrate deploy && npm run start
